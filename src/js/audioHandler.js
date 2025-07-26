@@ -87,11 +87,18 @@ audioHandler.audio.addEventListener('loadedmetadata', () => {
     durationSpan.textContent = formatTime(audioHandler.getDuration());
 });
 
+// Song title display
+const songTitleDiv = document.getElementById('songTitle');
+
 // Event Listeners
 document.getElementById('audioFile').addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (file) {
         audioHandler.loadAudio(file);
+        // Display the file name as the song title
+        songTitleDiv.textContent = file.name;
+    } else {
+        songTitleDiv.textContent = 'No song loaded';
     }
 });
 

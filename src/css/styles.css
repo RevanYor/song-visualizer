@@ -1,3 +1,14 @@
+/* Song title styles */
+.song-title {
+    margin: 10px 0 0 0;
+    font-size: 1.2em;
+    color: #4facfe;
+    text-align: center;
+    width: 800px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 body {
     margin: 0;
     padding: 20px;
