@@ -40,3 +40,29 @@ button:hover {
 input[type="file"] {
     color: white;
 }
+
+.progress-container {
+    width: 800px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    user-select: none;
+}
+
+#progressBar {
+    flex: 1;
+    height: 10px;
+    background: #222;
+    border-radius: 5px;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+}
+
+#progress {
+    height: 100%;
+    background: linear-gradient(90deg, #4facfe, #00f2fe);
+    width: 0%;
+    transition: width 0.1s linear;
+}

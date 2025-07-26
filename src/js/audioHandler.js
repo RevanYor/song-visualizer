@@ -40,6 +40,53 @@ function AudioHandler() {
 
 const audioHandler = new AudioHandler();
 
+// Progress bar elements
+const progressBar = document.getElementById('progressBar');
+const progress = document.getElementById('progress');
+const currentTimeSpan = document.getElementById('currentTime');
+const durationSpan = document.getElementById('duration');
+
+function formatTime(sec) {
+    if (isNaN(sec)) return '0:00';
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60);
+    return `${m}:${s.toString().padStart(2, '0')}`;
+}
+
+function updateProgress() {
+    const current = audioHandler.getCurrentTime();
+    const duration = audioHandler.getDuration();
+    progress.style.width = duration ? `${(current / duration) * 100}%` : '0%';
+    currentTimeSpan.textContent = formatTime(current);
+    durationSpan.textContent = formatTime(duration);
+    if (!audioHandler.audio.paused && !audioHandler.audio.ended) {
+        requestAnimationFrame(updateProgress);
+    }
+}
+
+// Seek functionality
+if (progressBar) {
+    progressBar.addEventListener('click', (e) => {
+        const rect = progressBar.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const percent = x / rect.width;
+        const duration = audioHandler.getDuration();
+        if (!isNaN(duration)) {
+            audioHandler.audio.currentTime = percent * duration;
+        }
+    });
+}
+
+// Start updating progress when audio plays
+audioHandler.audio.addEventListener('play', () => {
+    requestAnimationFrame(updateProgress);
+});
+
+// Update duration when metadata is loaded
+audioHandler.audio.addEventListener('loadedmetadata', () => {
+    durationSpan.textContent = formatTime(audioHandler.getDuration());
+});
+
 // Event Listeners
 document.getElementById('audioFile').addEventListener('change', (e) => {
     const file = e.target.files[0];
